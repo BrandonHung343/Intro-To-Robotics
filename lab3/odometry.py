@@ -30,6 +30,7 @@ class Odom:
 
         V = self.calculate_V(dRot1, dRot2, dt)
         w = self.calculate_w(dRot1, dRot2, dt)
+        print(w)
 
         # based on the runge-katta slides on the lab
         x0 = V * math.cos(self.theta)
@@ -44,5 +45,5 @@ class Odom:
 
         self.x = self.x + avg_t * (x0 + x1 + x2 + x3)
         self.y = self.y + avg_t * (y0 + y1 + y2 + y3)
-        self.theta = self.theta + w
+        self.theta = self.theta + w * dt
         
