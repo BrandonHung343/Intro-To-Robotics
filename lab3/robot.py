@@ -20,8 +20,12 @@ class Robot:
         self.portD = self.BP.PORT_D
         # init sensors too
         self.sensorList = [self.BP.PORT_1, self.BP.PORT_2, self.BP.PORT_3, self.BP.PORT_4]
-        self.BP.reset_motor_encoder(self.portB)
-        self.BP.reset_motor_encoder(self.portC)
+        # set the left and right motors
+        self.motorLeft = self.portA
+        self.motorRight = self.portD
+        self.BP.reset_motor_encoder(self.motorLeft)
+        self.BP.reset_motor_encoder(self.motorRight)
+        
         self.rotL = 0
         self.rotR = 0
 
@@ -36,16 +40,16 @@ class Robot:
         port = self.sensorList[portNumber-1]
         return self.BP.get_sensor(port)
 
-    def drive_robot_power(self, powerB, powerC):
-        self.BP.set_motor_power(self.portB, powerB)
-        self.BP.set_motor_power(self.portC, powerC)
+    def drive_robot_power(self, powerLeft, powerRight):
+        self.BP.set_motor_power(self.motorLeft, powerLeft)
+        self.BP.set_motor_power(self.motorRight, powerRight)
 
     def get_enc_radians(self):
-        degreeB = self.BP.get_motor_encoder(self.portB) / 2
-        degreeC = self.BP.get_motor_encoder(self.portC) / 2
-        radianB = math.pi / 180 * degreeB
-        radianC = math.pi / 180 * degreeC
-        return [radianB, radianC]
+        degreeLeft = self.BP.get_motor_encoder(self.motorLeft) / 2
+        degreeRight = self.BP.get_motor_encoder(self.motorRight) / 2
+        radianLeft = math.pi / 180 * degreeLeft
+        radianRight = math.pi / 180 * degreeRight
+        return [radianLeft, radianRight]
 
     # assumes the A is left motor and B is right motor
     def update_robot_odometry(self, dt):
