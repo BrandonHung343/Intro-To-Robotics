@@ -15,11 +15,12 @@ def main():
                 while(currTime - startTime < 3):
                         currTime = time.time()
                         robot.update_robot_odometry(currTime - lastTime)
+                        print("x, y, theta", end=' ')
+                        print(robot.get_robot_odometry())
+                        print("Time = " + str(currTime - lastTime))
                         lastTime = currTime
                         # might cause some issues in the near future, will see
                         time.sleep(0.05)
-                print("x, y, theta") 
-                print(robot.get_robot_odometry())
             robot.stop()
             time.sleep(3)
         robot.stop()

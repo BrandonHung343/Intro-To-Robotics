@@ -21,7 +21,7 @@ def main():
         robot.set_sensor(1, 'light')
         time.sleep(1)
         baseLight = 0 # figure out the line's sensor reading by observation
-        baseSpeed = [50, 50]
+        baseSpeed = [30, 30]
         lightSensor = find_line_right(robot)
         kp = 0 # figure out this value later
         kd = 0 # gotta tune this value

@@ -55,7 +55,6 @@ class Robot:
     def update_robot_odometry(self, dt):
         rads = self.get_enc_radians()
         deltaRads = [rads[0] - self.rotL, rads[1] - self.rotR]
-        print(deltaRads)
         self.odom.update_odometry(rads[0], rads[1], dt)
         self.rotL = rads[0]
         self.rotR = rads[1]
