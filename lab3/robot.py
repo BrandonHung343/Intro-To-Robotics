@@ -25,7 +25,7 @@ class Robot:
         self.motorRight = self.portD
         self.BP.reset_motor_encoder(self.motorLeft)
         self.BP.reset_motor_encoder(self.motorRight)
-        
+
         self.rotL = 0
         self.rotR = 0
 
@@ -62,6 +62,9 @@ class Robot:
 
     def get_robot_odometry(self):
         return [self.odom.x, self.odom.y, self.odom.theta]
+
+    def stop(self):
+        self.drive_robot_power(0, 0)
 
 
         

@@ -20,7 +20,9 @@ def main():
                         time.sleep(0.05)
                 print("x, y, theta") 
                 print(robot.get_robot_odometry())
-        robot.drive_robot_power(0, 0)
+            robot.stop()
+            time.sleep(3)
+        robot.stop()
 
 if __name__ == '__main__':
         main()

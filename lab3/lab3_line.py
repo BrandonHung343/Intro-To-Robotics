@@ -5,14 +5,15 @@ import time
 
 # turns to the right in order to find the line
 def find_line_right(robot):
-        lightThresh = 30 # insert some threshold number, play around with it
+        lightThresh = 2500 # insert some threshold number, play around with it
         lightSensed = robot.get_sensor(1)
-        while(lightSensed > lightThresh):
+        while(lightSensed < lightThresh):
                 robot.drive_robot_power(10, -10)
                 time.sleep(0.05)
                 lightSensed = robot.get_sensor(1)
                 print(lightSensed)
         print('Sensed Line: ' + lightSensed)
+        robot.stop()
         return lightSensed
 
 def main():
