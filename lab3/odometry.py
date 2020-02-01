@@ -1,14 +1,14 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import math
 
-def Odom():
-    def __init__(self):
+class Odom:
+    def __init__(self, wheelbase=0, radius=0):
         self.x = 0
         self.y = 0
         self.theta = 0
         # define the following at some point
-        self.radius = 0
-        self.wheelbase = 0
+        self.radius = radius
+        self.wheelbase = wheelbase
 
     def calculate_vl_vr(self, rot1, rot2, dt):
         vl = rot1 * self.radius / dt
@@ -22,7 +22,7 @@ def Odom():
     def calculate_w(self, rot1, rot2, dt):
         # vl = vs[0], vr = vs[1]
         vs = self.calculate_vl_vr(rot1, rot2, dt)
-        return (v[1] - v[0]) / self.wheelbase
+        return (vs[1] - vs[0]) / self.wheelbase
 
     def update_odometry(self, rot1, rot2, dt):
         avg_t = dt / 6
