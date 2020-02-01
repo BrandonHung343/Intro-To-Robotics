@@ -10,24 +10,27 @@ class Odom:
         self.radius = radius
         self.wheelbase = wheelbase
 
-    def calculate_vl_vr(self, rot1, rot2, dt):
-        vl = rot1 * self.radius / dt
-        vr = rot2 * self.radius / dt
+    # calculates the left and right velocities based on the left and right velocities
+    def calculate_vl_vr(self, dRot1, dRot2, dt):
+        vl = dRot1 * self.radius / dt
+        vr = dRot2 * self.radius / dt
         return [vl, vr]
 
-    def calculate_V(self, rot1, rot2, dt):
-        vs = self.calculate_vl_vr(rot1, rot2, dt)
+    def calculate_V(self, dRot1, dRot2, dt):
+        vs = self.calculate_vl_vr(dRot1, dRot1, dt)
         return (vs[0] + vs[1]) / 2
 
-    def calculate_w(self, rot1, rot2, dt):
+    def calculate_w(self, dRot1, dRot2, dt):
         # vl = vs[0], vr = vs[1]
-        vs = self.calculate_vl_vr(rot1, rot2, dt)
+        vs = self.calculate_vl_vr(dRot1, dRot2, dt)
         return (vs[1] - vs[0]) / self.wheelbase
 
-    def update_odometry(self, rot1, rot2, dt):
+    def update_odometry(self, dRot1, dRot2, dt):
         avg_t = dt / 6
-        V = self.calculate_V(rot1, rot2, dt)
-        w = self.calculate_w(rot1, rot2, dt)
+
+        V = self.calculate_V(dRot1, dRot2, dt)
+        w = self.calculate_w(dRot1, dRot2, dt)
+
         # based on the runge-katta slides on the lab
         x0 = V * math.cos(self.theta)
         x1 = V * math.cos(self.theta + dt * w/2)
