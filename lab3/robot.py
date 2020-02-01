@@ -9,6 +9,8 @@ class Robot:
         self.BP = brickpi3.BrickPi3()
         self.wheelbase = 4.25 # in inches
         self.radius = 1.125 # in inches too
+        # add to the dictionary below once we figure out the other sensor names
+        self.sensorDict = {'light', BP.SENSOR_TYPE.NXT_LIGHT_ON}
         self.odom = odom.Odom(self.wheelbase, self.radius)
         # currently assumes that only ports B and C are used for motors
         # also assumes that the sensor is in S1
@@ -27,15 +29,16 @@ class Robot:
         return self.BP.get_voltage_battery()
 
     def set_sensor(self, portNumber, sType):
-        BP.set_sensor_type(portNumber, sType)
+        sensorType = self.sensorDict[sType]
+        BP.set_sensor_type(portNumber, sensorType)
 
     def get_sensor(self, portNumber):
         port = self.sensorList[portNumber-1]
         return BP.get_sensor(self, port)
 
     def drive_robot_power(self, powerB, powerC):
-        self.BP.set_motor_power(powerB)
-        self.BP.set_motor_power(powerC)
+        self.BP.set_motor_power(self.portB, powerB)
+        self.BP.set_motor_power(self.portC, powerC)
 
     def get_enc_radians(self):
         degreeB = self.BP.get_motor_encoder(self.portB) / 2
