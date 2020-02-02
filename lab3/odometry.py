@@ -17,7 +17,7 @@ class Odom:
         return [vl, vr]
 
     def calculate_V(self, dRot1, dRot2, dt):
-        vs = self.calculate_vl_vr(dRot1, dRot1, dt)
+        vs = self.calculate_vl_vr(dRot1, dRot2, dt)
         return (vs[0] + vs[1]) / 2
 
     def calculate_w(self, dRot1, dRot2, dt):
@@ -30,8 +30,7 @@ class Odom:
 
         V = self.calculate_V(dRot1, dRot2, dt)
         w = self.calculate_w(dRot1, dRot2, dt)
-        print(w)
-
+        # print(w)
         # based on the runge-katta slides on the lab
         x0 = V * math.cos(self.theta)
         x1 = V * math.cos(self.theta + dt * w/2)
@@ -43,7 +42,7 @@ class Odom:
         y2 = V * math.sin(self.theta + dt * w/2)
         y3 = V * math.sin(self.theta + dt * w)
 
-        self.x = self.x + avg_t * (x0 + x1 + x2 + x3)
-        self.y = self.y + avg_t * (y0 + y1 + y2 + y3)
+        self.x = self.x + avg_t * (x0 + 2 * (x1 + x2) + x3)
+        self.y = self.y + avg_t * (y0 + 2 * (y1 + y2) + y3)
         self.theta = self.theta + w * dt
         

@@ -45,8 +45,8 @@ class Robot:
         self.BP.set_motor_power(self.motorRight, powerRight)
 
     def get_enc_radians(self):
-        degreeLeft = self.BP.get_motor_encoder(self.motorLeft) / 2
-        degreeRight = self.BP.get_motor_encoder(self.motorRight) / 2
+        degreeLeft = self.BP.get_motor_encoder(self.motorLeft)
+        degreeRight = self.BP.get_motor_encoder(self.motorRight)
         radianLeft = math.pi / 180 * degreeLeft
         radianRight = math.pi / 180 * degreeRight
         return [radianLeft, radianRight]
@@ -55,7 +55,9 @@ class Robot:
     def update_robot_odometry(self, dt):
         rads = self.get_enc_radians()
         deltaRads = [rads[0] - self.rotL, rads[1] - self.rotR]
-        self.odom.update_odometry(rads[0], rads[1], dt)
+        # print("DeltaRads:")
+        # print(deltaRads)
+        self.odom.update_odometry(deltaRads[0], deltaRads[1], dt)
         self.rotL = rads[0]
         self.rotR = rads[1]
 
