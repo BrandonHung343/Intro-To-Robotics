@@ -3,8 +3,9 @@ import math
 
 class Odom:
     def __init__(self, wheelbase=0, radius=0):
-        self.x = 0
-        self.y = 0
+        # real robot com which is offset the wheelbase
+        self.x = 1.25
+        self.y = -2
         self.theta = 0
         # define the following at some point
         self.radius = radius
@@ -24,6 +25,15 @@ class Odom:
         # vl = vs[0], vr = vs[1]
         vs = self.calculate_vl_vr(dRot1, dRot2, dt)
         return (vs[1] - vs[0]) / self.wheelbase
+
+    def update_odometry_kelly(self, dRot1, dRot2, dt):
+        V = self.calculate_V(dRot1, dRot2, dt)
+        w = self.calculate_w(dRot1, dRot2, dt)
+
+        self.theta = self.theta + w * dt / 2
+        self.x = self.x + V * math.cos(self.theta) * dt
+        self.y = self.y + V * math.sin(self.theta) * dt
+        self.theta = self.theta + w * dt / 2
 
     def update_odometry(self, dRot1, dRot2, dt):
         avg_t = dt / 6
