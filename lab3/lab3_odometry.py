@@ -40,10 +40,11 @@ def main():
                     time.sleep(0.01)
                     
 
-                print("x, y, theta", end=' ')
-                print(robot.get_robot_odometry())
                 robot.stop()
                 time.sleep(3)
+
+        print("x, y: ", end=' ')
+        print((robot.get_robot_odometry())[:-1]) 
         robot.stop()
 
 if __name__ == '__main__':

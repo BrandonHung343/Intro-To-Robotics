@@ -4,9 +4,9 @@ import math
 class Odom:
     def __init__(self, wheelbase=0, radius=0):
         # real robot com which is offset the wheelbase
-        self.x = 1.25
-        self.y = -2
-        self.theta = 0
+        self.x = 1
+        self.y = -0.5
+        self.theta = -0.1
         # define the following at some point
         self.radius = radius
         self.wheelbase = wheelbase
