@@ -23,7 +23,8 @@ class Robot:
         # set the left and right motors
         self.motorLeft = self.portA
         self.motorRight = self.portD
-        self.motorCap = 70 # cap on the motor power
+        # cap on the motor power
+        self.motorCap = 70 
         self.BP.reset_motor_encoder(self.motorLeft)
         self.BP.reset_motor_encoder(self.motorRight)
 
@@ -44,8 +45,12 @@ class Robot:
     def drive_robot_power(self, powerLeft, powerRight):
         if (powerLeft > self.motorCap):
             powerLeft = self.motorCap
+        elif (powerLeft < -self.motorCap):
+            powerLeft = -self.motorCap
         if (powerRight > self.motorCap):
             powerRight = self.motorCap
+        elif (powerRight < -self.motorCap):
+            powerRight = -self.motorCap
 
         self.BP.set_motor_power(self.motorLeft, powerLeft)
         self.BP.set_motor_power(self.motorRight, powerRight)
