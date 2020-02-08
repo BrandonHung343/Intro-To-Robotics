@@ -28,8 +28,20 @@ def test_sensors(robot):
 		print('Sensor 2: ' + str(robot.get_sensor(2)))
 		time.sleep(0.5)
 
+def check_motor_direction(robot):
+	while(True):
+		robot.drive_robot_power(10, 10)
+		time.sleep(3)
+		robot.stop()
+		time.sleep(1)
+		robot.drive_robot_power(-10, -10)
+		time.sleep(3)
+
+
+
 def main():
 	test_sense = False
+	test_motor = False
 	robot = startBot()
 	signal.signal(signal.SIGINT, signal_handler)
 	Kp = 0
@@ -44,6 +56,8 @@ def main():
 	errorData = []
 	if (test_sense):
 		test_sensors(robot)
+	if (test_motor):
+		check_motor_direction(robot)
 	while (True):
 		currTime = time.time()
 		sensor1 = robot.get_sensor(1)
