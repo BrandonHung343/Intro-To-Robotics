@@ -7,7 +7,7 @@ def main():
         robot = rob.Robot()
         print("BAttery:" + str(robot.get_robot_battery()))
         robot.stop()
-        powPairs = [[10, 30], [-30, 30], [-20, 10]]
+        powPairs = [[30, 20], [20, 30], [-30, 0]]
         for index in range(len(powPairs)):
                 powers = powPairs[index]
                 startTime = time.time()
@@ -21,7 +21,7 @@ def main():
                 left_scale = 1
                 right_scale = 1
                 if index == 2:
-                    right_scale = 1.5
+                    right_scale = 1
                 robot.drive_robot_power(left_scale * powers[0], right_scale * powers[1])
  
                 first = True

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import brickpi3
-import odometry as odom
+# import odometry as odom
 import math
 
 class Robot:
@@ -11,7 +11,7 @@ class Robot:
         self.radius = 1.125 # in inches too
         # add to the dictionary below once we figure out the other sensor names
         self.sensorDict = {'light': self.BP.SENSOR_TYPE.NXT_LIGHT_ON}
-        self.odom = odom.Odom(self.wheelbase, self.radius)
+ #        self.odom = odom.Odom(self.wheelbase, self.radius)
         # currently assumes that only ports B and C are used for motors
         # also assumes that the sensor is in S1
         self.portA = self.BP.PORT_A
@@ -24,7 +24,7 @@ class Robot:
         self.motorLeft = self.portA
         self.motorRight = self.portD
         # cap on the motor power
-        self.motorCap = 70 
+        self.motorCap = 100
         self.BP.reset_motor_encoder(self.motorLeft)
         self.BP.reset_motor_encoder(self.motorRight)
 
