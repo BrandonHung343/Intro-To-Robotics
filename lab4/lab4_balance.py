@@ -18,7 +18,7 @@ def startBot():
 	robot = rob.Robot()
     robot.stop()
     robot.set_sensor(1, 'light') # potentiall change the port numbers later
-    robot.set_sensor(2, 'light') # potentially change the port numbers later
+    robot.set_sensor(3, 'light') # potentially change the port numbers later
     time.sleep(1)
     return robot
 
