@@ -57,9 +57,9 @@ def main():
         test_sense = False
         test_motor = False
         signal.signal(signal.SIGINT, signal_handler)
-        Kp = 0.675
-        Kd = 0.0035
-        Ki = 0.1
+        Kp = 0.725
+        Kd = 0.01
+        Ki = 4.25
         lastError = 0
         first = True
         DError = 0
