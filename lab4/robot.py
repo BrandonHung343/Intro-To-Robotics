@@ -27,9 +27,6 @@ class Robot:
         self.motorCap = 100
         self.BP.reset_motor_encoder(self.motorLeft)
         self.BP.reset_motor_encoder(self.motorRight)
-        self.x = 0
-        self.y = 0
-        self.theta = 0
 
         self.rotL = 0
         self.rotR = 0
@@ -58,58 +55,25 @@ class Robot:
         self.BP.set_motor_power(self.motorLeft, powerLeft)
         self.BP.set_motor_power(self.motorRight, powerRight)
 
+    def get_enc_radians(self):
+        degreeLeft = self.BP.get_motor_encoder(self.motorLeft)
+        degreeRight = self.BP.get_motor_encoder(self.motorRight)
+        radianLeft = math.pi / 180 * degreeLeft
+        radianRight = math.pi / 180 * degreeRight
+        return [radianLeft, radianRight]
 
-    def calculate_vl_vr(self, dRot1, dRot2, dt):
-        vl = dRot1 * self.radius / dt
-        vr = dRot2 * self.radius / dt
-        return [vl, vr]
-
-    def calculate_V(self, dRot1, dRot2, dt):
-        vs = self.calculate_vl_vr(dRot1, dRot2, dt)
-        return (vs[0] + vs[1]) / 2
-
-    def calculate_w(self, dRot1, dRot2, dt):
-        vs = self.calculate_vl_vr(dRot1, dRot2, dt)
-        return (vs[1] - vs[0]) / self.wheelbase
-
-    def rots_to_rad(self, rotL, rotR):
-        return [rotL * math.pi / 180, rotR * math.pi / 180]
-
-    def update_odometry(self, dt):
-        avg_t = dt / 6
-
-        rot1 = self.BP.get_motor_encoder(self.motorLeft)
-        rot2 = self.BP.get_motor_encoder(self.motorRight)
-
-        rads = self.rots_to_rad(rot1, rot2)
-     
-        dRot1 = rads[0] - self.rotL
-        dRot2 = rads[1] - self.rotR
-
-        V = self.calculate_V(dRot1, dRot2, dt)
-        w = self.calculate_w(dRot1, dRot2, dt)
-        # print(V, w)
-        # print(w)
-        # based on the runge-katta slides on the lab
-        x0 = V * math.cos(self.theta)
-        x1 = V * math.cos(self.theta + dt * w/2)
-        x2 = V * math.cos(self.theta + dt * w/2)
-        x3 = V * math.cos(self.theta + dt * w)
-
-        y0 = V * math.sin(self.theta)
-        y1 = V * math.sin(self.theta + dt * w/2)
-        y2 = V * math.sin(self.theta + dt * w/2)
-        y3 = V * math.sin(self.theta + dt * w)
-
-        self.x = self.x + avg_t * (x0 + 2 * (x1 + x2) + x3)
-        self.y = self.y + avg_t * (y0 + 2 * (y1 + y2) + y3)
-        self.theta = self.theta + w * dt
-
+    # assumes the A is left motor and B is right motor
+    def update_robot_odometry(self, dt):
+        rads = self.get_enc_radians()
+        deltaRads = [rads[0] - self.rotL, rads[1] - self.rotR]
+        # print("DeltaRads:")
+        # print(deltaRads)
+        self.odom.update_odometry(deltaRads[0], deltaRads[1], dt)
         self.rotL = rads[0]
         self.rotR = rads[1]
-        
-    def get_odometry(self):
-        return [self.x, self.y, self.theta]
+
+    def get_robot_odometry(self):
+        return [self.odom.x, self.odom.y, self.odom.theta]
 
     def stop(self):
         self.drive_robot_power(0, 0)
