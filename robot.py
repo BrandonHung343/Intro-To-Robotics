@@ -3,6 +3,7 @@
 import brickpi3
 # import odometry as odom
 import math
+import numpy as np
 
 class Robot:
     def __init__(self, wheelbase=4.25, radius=1.125):
@@ -57,7 +58,6 @@ class Robot:
 
         self.BP.set_motor_power(self.motorLeft, powerLeft)
         self.BP.set_motor_power(self.motorRight, powerRight)
-
 
     def calculate_vl_vr(self, dRot1, dRot2, dt):
         vl = dRot1 * self.radius / dt
@@ -151,13 +151,10 @@ class Robot:
 
         V = self.calculate_V(vlvr[0], vlvr[1], dt)
         w = self.calculate_w(vlvr[0], vlvr[1], dt)
-        print(V)
-
-
-
+        # print(V)
         vError = targetV - V
         wError = targetw - w
-        print('vError', vError)
+        # print('vError', vError)
 
         errVlVr = self.ik(vError, wError)
 
@@ -168,6 +165,15 @@ class Robot:
         # finds the errors in degrees per second
 
         return [correctionPowL, correctionPowR]
+
+    
+
+
+
+
+
+
+
 
 
 

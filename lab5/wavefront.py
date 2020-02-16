@@ -1,4 +1,7 @@
 import numpy as np
+import transforms as tf
+import math
+import copy
 
 def get_8_neighbors(grid, x, y):
 	ylen = len(grid)
@@ -115,11 +118,11 @@ def pretty_print(grid):
 
 
 def test_grid(four):
-	xsize = 20
-	ysize = 20
-	startx = 2
-	starty = 4
-	obs_prob = 0.8
+	xsize = 5
+	ysize = 5
+	startx = 3
+	starty = 1
+	obs_prob = 0.3
 	grid = make_random_grid(xsize, ysize, obs_prob)
 	if (not four):
 		wvgrid = wave8(grid, startx, starty)
@@ -165,6 +168,7 @@ def find_path_8_recurse(grid, startx, starty, path, last_count):
 				return path
 		return None
 
+
 def find_path(grid, startx, starty, four=False):
 	if grid[starty][startx] <= 0:
 		return None
@@ -175,6 +179,44 @@ def find_path(grid, startx, starty, four=False):
 	path.append([startx, starty])
 	path.reverse()
 	return path
+
+def path_relative_to_start(path, xi, yi, thi):
+	# assumes transforms are a rotation, then a translation
+	first = True
+	lastTh = thi
+	pathRobotFrame = []
+	tempPath = copy.deepcopy(path)
+	
+	for j in range(len(tempPath) - 1):
+		item = tempPath[j]
+		nextItem = tempPath[j + 1]
+		xj = item[0]
+		yj = item[1]	
+		xk = nextItem[0]
+		yk = nextItem[1]
+		
+
+		transTgr = tf.invert_transform(tf.get_transform(xj, yj, 0))
+		transTpg = tf.get_transform(xk, yk, 0)
+		transTpr = tf.chain_transforms(transTgr, transTpg)
+		transPpr = tf.get_pose_vec(transTpr)
+
+		finTh = math.atan2(yk - yj, xk - xj)
+		rotTgr = tf.invert_transform(tf.get_transform(0, 0, finTh))
+		rotTpg = tf.get_transform(0, 0, lastTh)
+		rotTpr = tf.chain_transforms(rotTgr, rotTpg)
+		rotPpr = tf.get_pose_vec(rotTpr)
+
+		
+		pathRobotFrame.append(transPpr)
+		pathRobotFrame.append(rotPpr)
+		lastTh = finTh
+	tempPath.insert(0, [xi, yi, thi])
+	return pathRobotFrame
+
+
+
+
 
 
 
