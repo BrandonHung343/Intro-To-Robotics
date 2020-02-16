@@ -59,14 +59,14 @@ def main():
         signal.signal(signal.SIGINT, signal_handler)
         Kp = 0.725
         Kd = 0.01
-        Ki = 4.9
+        Ki = 4.75
         lastError = 0
         first = True
         DError = 0
         IError = 0
         lastTime = 0
         recordTime = 0
-        base = 21
+        base = 17
         if (test_sense):
                 test_sensors(robot)
         if (test_motor):

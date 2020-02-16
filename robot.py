@@ -5,10 +5,10 @@ import brickpi3
 import math
 
 class Robot:
-    def __init__(self):
+    def __init__(self, wheelbase=4.25, radius=1.125):
         self.BP = brickpi3.BrickPi3()
-        self.wheelbase = 4.25 # in inches
-        self.radius = 1.125 # in inches too
+        self.wheelbase = wheelbase # in inches
+        self.radius = radius # in inches too
         # add to the dictionary below once we figure out the other sensor names
         self.sensorDict = {'light': self.BP.SENSOR_TYPE.NXT_LIGHT_ON}
  #        self.odom = odom.Odom(self.wheelbase, self.radius)
@@ -21,7 +21,7 @@ class Robot:
         # init sensors too
         self.sensorList = [self.BP.PORT_1, self.BP.PORT_2, self.BP.PORT_3, self.BP.PORT_4]
         # set the left and right motors
-        self.motorLeft = self.portA
+        self.motorLeft = self.portB
         self.motorRight = self.portD
         # cap on the motor power
         self.motorCap = 100
@@ -65,15 +65,26 @@ class Robot:
         return [vl, vr]
 
     def calculate_V(self, dRot1, dRot2, dt):
-        vs = self.calculate_vl_vr(dRot1, dRot2, dt)
+        # vs = self.calculate_vl_vr(dRot1, dRot2, dt)
+        vs = [dRot1, dRot2]
         return (vs[0] + vs[1]) / 2
 
     def calculate_w(self, dRot1, dRot2, dt):
-        vs = self.calculate_vl_vr(dRot1, dRot2, dt)
+        # vs = self.calculate_vl_vr(dRot1, dRot2, dt)
+        vs = [dRot1, dRot2]
         return (vs[1] - vs[0]) / self.wheelbase
 
     def rots_to_rad(self, rotL, rotR):
         return [rotL * math.pi / 180, rotR * math.pi / 180]
+
+    def get_encoder_readings(self):
+        rot1 = self.BP.get_motor_encoder(self.motorLeft)
+        rot2 = self.BP.get_motor_encoder(self.motorRight)
+        return self.rots_to_rad(rot1, rot2)
+
+    def get_wheel_displacement(self):
+        rads = self.rots_to_rad(self.rotL, self.rotR)
+        return [rads[0] * self.radius, rads[1] * self.radius]
 
     def update_odometry(self, dt):
         avg_t = dt / 6
@@ -86,8 +97,13 @@ class Robot:
         dRot1 = rads[0] - self.rotL
         dRot2 = rads[1] - self.rotR
 
-        V = self.calculate_V(dRot1, dRot2, dt)
-        w = self.calculate_w(dRot1, dRot2, dt)
+        vlvr = self.calculate_vl_vr(dRot1, dRot2, dt)
+
+        V = self.calculate_V(vlvr[0], vlvr[1], dt)
+        w = self.calculate_w(vlvr[0], vlvr[1], dt)
+        # print('rot deltas', dRot1, dRot2)
+        # print('Vl, vr', vlvr)
+        # print('Robot Omega:', w)
         # print(V, w)
         # print(w)
         # based on the runge-katta slides on the lab
