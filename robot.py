@@ -133,6 +133,46 @@ class Robot:
     def print_status(self):
         print("Battery:" + str(self.get_robot_battery()))
 
+    def ik(self, V, w):
+        vr = V + self.wheelbase/2 * w
+        vl = V - self.wheelbase/2 * w
+        return [vl, vr]
+
+    def pid_Vw(self, targetV, targetw, Kpl, Kpr, dt):
+        rot1 = self.BP.get_motor_encoder(self.motorLeft)
+        rot2 = self.BP.get_motor_encoder(self.motorRight)
+
+        rads = self.rots_to_rad(rot1, rot2)
+
+        dRot1 = rads[0] - self.rotL
+        dRot2 = rads[1] - self.rotR
+
+        vlvr = self.calculate_vl_vr(dRot1, dRot2, dt)
+
+        V = self.calculate_V(vlvr[0], vlvr[1], dt)
+        w = self.calculate_w(vlvr[0], vlvr[1], dt)
+        print(V)
+
+
+
+        vError = targetV - V
+        wError = targetw - w
+        print('vError', vError)
+
+        errVlVr = self.ik(vError, wError)
+
+        correctionPowL = Kpl * errVlVr[0]
+        correctionPowR = Kpr * errVlVr[1]
+
+
+        # finds the errors in degrees per second
+
+        return [correctionPowL, correctionPowR]
+
+
+
+ 
+
 
         
 
