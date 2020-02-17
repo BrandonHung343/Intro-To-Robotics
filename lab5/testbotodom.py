@@ -7,8 +7,8 @@ import math
 
 def pid_rot_tuning_right(robot):
     # tuning the velocity to be 0.75, w to be 0
-    Kpr = 0.5
-    Kpl = 0.5
+    Kpr = 3.5
+    Kpl = 3.5
     targetV = 0
     targetW = math.pi
     nowTime = time.time()
@@ -37,8 +37,8 @@ def pid_rot_tuning_right(robot):
 
 def pid_rot_tuning_left(robot):
     # tuning the velocity to be 0.75, w to be 0
-    Kpr = 0.5
-    Kpl = 0.5
+    Kpr = 1.25
+    Kpl = 1.25
     targetV = 0
     targetW = -math.pi
     nowTime = time.time()
