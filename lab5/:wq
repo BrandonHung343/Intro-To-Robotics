@@ -21,18 +21,18 @@ def ramp_velocity(Vmax, t, rampTime):
 
 def pid_rot_tuning_right(robot):
     # tuning the velocity to be 0.75, w to be 0
-    Kpr = 1
-    Kpl = 1
+    Kpr = 13
+    Kpl = 13
     targetV = 0
     rampTime = 0.15
     targetW = math.pi
-    targetT = 0.2
+    targetT = 0.5
     nowTime = time.time()
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = -39
-    powR = 39
+    powL = -30
+    powR = 30
     while (currTime - startTime <= targetT + 2 * rampTime):
         currTime = time.time() 
         if (first):
@@ -55,17 +55,17 @@ def pid_rot_tuning_right(robot):
 
 def pid_rot_tuning_left(robot):
     # tuning the velocity to be 0.75, w to be 0
-    Kpr = 1
-    Kpl = 1
+    Kpr = 3
+    Kpl = 3
     targetV = 0
-    targetW = (-math.pi) 
+    targetW = -math.pi
     nowTime = time.time()
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = 39
-    powR = -39
-    targetT = 0.2
+    powL = 25
+    powR = -25
+    targetT = 0.5
     rampTime = 0.15
     while (currTime - startTime <= targetT + 2 * rampTime):
         currTime = time.time() 
@@ -89,8 +89,8 @@ def pid_rot_tuning_left(robot):
 
 def pid_straight_tuning(robot):
     # tuning the velocity to be 0.75, w to be 0
-    Kpr = 0
-    Kpl = 0
+    Kpr = 4.5
+    Kpl = 4.5
     targetV = 4
     targetW = 0
     nowTime = time.time()
@@ -100,7 +100,7 @@ def pid_straight_tuning(robot):
     powL = 25
     powR = 25
     rampTime = 0.15
-    targetT = 0.2
+    targetT = 0.5
     while (currTime - startTime <= targetT + 2 * rampTime):
         currTime = time.time() 
         if (first):
