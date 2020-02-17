@@ -2,6 +2,7 @@ import numpy as np
 import transforms as tf
 import math
 import copy
+import gridmap as gd
 
 def get_8_neighbors(grid, x, y):
 	ylen = len(grid)
@@ -106,8 +107,8 @@ def make_random_grid(xsize, ysize, obs_prob):
 	return grid
 
 
-def pretty_print(grid):
-	with open('grid.txt', 'w') as fi:
+def pretty_print(grid, finame):
+	with open(finame, 'w') as fi:
 		# f_string = '%s ' * (len(grid))
 
 		for row in grid:
@@ -128,7 +129,7 @@ def test_grid(four):
 		wvgrid = wave8(grid, startx, starty)
 	else:
 		wvgrid = wave4(grid, startx, starty)
-	pretty_print(wvgrid)
+	pretty_print(wvgrid, 'grid.txt')
 	return wvgrid
 
 
@@ -180,10 +181,8 @@ def find_path(grid, startx, starty, four=False):
 	path.reverse()
 	return path
 
-def path_relative_to_start(path, xi, yi, thi):
+def relative_translations(path, xi, yi):
 	# assumes transforms are a rotation, then a translation
-	first = True
-	lastTh = thi
 	pathRobotFrame = []
 	tempPath = copy.deepcopy(path)
 	
@@ -200,20 +199,90 @@ def path_relative_to_start(path, xi, yi, thi):
 		transTpg = tf.get_transform(xk, yk, 0)
 		transTpr = tf.chain_transforms(transTgr, transTpg)
 		transPpr = tf.get_pose_vec(transTpr)
-
-		finTh = math.atan2(yk - yj, xk - xj)
-		rotTgr = tf.invert_transform(tf.get_transform(0, 0, finTh))
-		rotTpg = tf.get_transform(0, 0, lastTh)
-		rotTpr = tf.chain_transforms(rotTgr, rotTpg)
-		rotPpr = tf.get_pose_vec(rotTpr)
-
 		
 		pathRobotFrame.append(transPpr)
-		pathRobotFrame.append(rotPpr)
-		lastTh = finTh
-	tempPath.insert(0, [xi, yi, thi])
 	return pathRobotFrame
 
+def relative_rotations(transpath):
+	rotpath = []
+	for i in range(len(transpath) - 1):
+		x = transpath[i][0]
+		y = transpath[i][1]
+		nextX = transpath[i+1][0]
+		nextY = transpath[i+1][1]
+		if (x == -1):
+			if (nextX == -1):
+				rotpath.append(0)
+			elif (nextY == -1):
+				rotpath.append(math.pi/2)
+			else:
+				rotpath.append(-math.pi/2)
+		elif (x == 1):
+			if (nextX == 1):
+				rotpath.append(0)
+			elif (nextY == -1):
+				rotpath.append(-math.pi/2)
+			else:
+				rotpath.append(math.pi/2)
+		elif (y == -1):
+			if (nextY == -1):
+				rotpath.append(0)
+			elif (nextX == -1):
+				rotpath.append(-math.pi/2)
+			else:
+				rotpath.append(math.pi/2)
+		elif (y == 1):
+			if (nextY == 1):
+				rotpath.append(0)
+			elif (nextX == -1):
+				rotpath.append(math.pi/2)
+			elif (nextX == 1):
+				rotpath.append(-math.pi/2)
+			else:
+				rotpath.append(math.pi)
+	rotpath.append(0)
+	return rotpath
+
+def to_ones(transpath):
+	oneList = [1 for item in transpath]
+	oneList[0] = 0
+	return oneList
+
+def combined_path(path, xi, yi):
+	transpath = relative_translations(path, xi, yi)
+	transpath.insert(0, [0, 1, 0])
+	rotpath = relative_rotations(transpath)
+	onespath = to_ones(transpath)
+	finalRobotPath = zip(onespath, rotpath)
+	return list(finalRobotPath)
+
+def full_path_4point(xstart, ystart, xgoal, ygoal, testing=False, testGrid=None, convertInput=False):
+	if (testing):
+		grid = testGrid
+	else:
+		grid = gd.create_map()
+	if (convertInput):
+		xgoal = math.floor(xgoal/2)
+		ygoal = math.floor(ygoal/2)
+		xstart = math.floor(xstart/2)
+		ystart = math.floor(ystart/2)
+	wv = wave4(grid, xgoal, ygoal)
+	pretty_print(wv, 'grid.txt')
+	init_path = find_path(wv, xstart, ystart, True)
+	print(init_path)
+	pretty_print_path(grid, init_path)
+	return combined_path(init_path, xstart, ystart)
+
+
+def pretty_print_path(grid, path):
+	tempGrid = copy.deepcopy(grid)
+	count = 0
+	for waypoint in path:
+		x = waypoint[0]
+		y = waypoint[1]
+		tempGrid[y][x] = 'p' + str(count)
+		count = count + 1
+	pretty_print(tempGrid, 'gridpath.txt')
 
 
 

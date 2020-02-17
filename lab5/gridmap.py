@@ -107,4 +107,4 @@ def create_map():
 
 	return m
 
-create_map()
+# create_map()
