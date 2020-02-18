@@ -403,6 +403,9 @@ def relative_rotations8(transpath):
                         elif (nextPoint == [0, -1, 0]):
                                 rotpath.append(3 * math.pi / 4)
         rotpath.append(0)
+        for i in range(len(rotpath)):
+            rotpath[i] = -rotpath[i]
+
         return rotpath
 
 

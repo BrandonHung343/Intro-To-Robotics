@@ -132,8 +132,8 @@ def pid_diag_tuning(robot):
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = 37
-    powR = 37
+    powL = 32
+    powR = 32
     rampTime = 0.15
     targetT = 0.2
     while (currTime - startTime <= targetT + 2 * rampTime):
@@ -227,10 +227,10 @@ def main_loop8(xstart, ystart, xgoal, ygoal, convert=False):
             if (distance == 1):
                 pid_straight_tuning(robot)
             elif (distance == 2):
-                pid_diag_tuning(robot):
+                pid_diag_tuning(robot)
             time.sleep(0.35)
             if (theta == -math.pi / 4):
-                pid.pid_rot_tuning_left(robot)
+                pid_rot_tuning_left(robot)
                 time.sleep(0.65)
             elif (theta == -math.pi / 2):
                 pid_rot_tuning_left(robot)
@@ -245,7 +245,7 @@ def main_loop8(xstart, ystart, xgoal, ygoal, convert=False):
                 pid_rot_tuning_left(robot)
                 time.sleep(0.65/3)
             elif (theta == math.pi / 4):
-                pid.pid_rot_tuning_right(robot)
+                pid_rot_tuning_right(robot)
                 time.sleep(0.65)
             elif (theta == math.pi / 2):
                 pid_rot_tuning_right(robot)
