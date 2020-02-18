@@ -14,5 +14,5 @@ def chain_transforms(mat1, mat2):
 def get_pose_vec(mat):
     x = mat[0][2]
     y = mat[1][2]
-    th = - math.atan2(-mat[0][1], mat[0][0])
+    th = math.atan2(-mat[0][1], mat[0][0])
     return [x, y, th]

@@ -203,6 +203,64 @@ def relative_translations(path, xi, yi):
                 pathRobotFrame.append(transPpr)
         return pathRobotFrame
 
+def match_angles(inList):
+        if inList == [0, 1, 0]:
+                return 0
+        elif inList == [1, 1, 0]: 
+                return -math.pi / 4
+        elif inList == [1, 0, 0]: 
+                return -math.pi/2
+        elif inList == [1, -1, 0]: 
+                return -3 * math.pi /4
+        elif inList == [0, -1, 0]: 
+                return math.pi 
+        elif inList == [-1, -1, 0]: 
+                return 3 * math.pi / 4
+        elif inList == [-1, 0, 0]: 
+                return math.pi / 2
+        elif inList == [-1, 1, 0]: 
+                return math.pi / 4
+
+# def angleArith(ang1,ang2,sgn):
+#         if (sgn > 0):
+#                 theta = math.atan2(math.sin(ang1 + ang2), cos(ang1 + ang2))
+#         else:
+#                 theta = math.atan2(math.sin(ang2 - ang1), math.cos(ang2 - ang1))
+
+
+#     theta = atan2(sin(ang1 + ang2), cos(ang1 + ang2));
+
+        
+#         else:
+#         theta = atan2(sin(ang2 - ang1), cos(ang2 - ang1));
+# return theta
+
+
+def assign_angles(transpath):
+        currAngle = 0
+        nextAngle = 0
+        first = True
+        angList = []
+        for i in range(len(transpath) - 1):
+                x = 0
+                y = 0
+                if (first):
+                        currAngle = match_angles(transpath[i])
+                        Tgr = tf.get_transform(0, 0, currAngle)
+                        first = False
+                else:
+                        Tgr = tf.invert_transform(tf.get_transform(0, 0, currAngle))
+                nextAngle = match_angles(transpath[i+1])
+                print(currAngle, nextAngle)
+                
+                Tpg = tf.get_transform(0, 0, nextAngle)
+                Tpr = tf.chain_transforms(Tgr, Tpg)
+                Ppr = tf.get_pose_vec(Tpr) 
+                theta = Ppr[2]
+                angList.append(theta)
+                currAngle = nextAngle
+        return angList
+
 def relative_rotations8(transpath):
         rotpath = []
         for i in range(len(transpath) - 1):
@@ -413,7 +471,8 @@ def combined_path8(path, xi, yi):
         transpath = relative_translations(path, xi, yi)
         print(transpath)
         transpath.insert(0, [0, 1, 0])
-        rotpath = relative_rotations8(transpath)
+        rotpath = assign_angles(transpath)
+        print(rotpath)
         onespath = to_distances8(transpath)
         finalRobotPath = zip(onespath, rotpath)
         return list(finalRobotPath)
