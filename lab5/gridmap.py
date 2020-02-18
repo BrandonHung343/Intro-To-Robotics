@@ -66,6 +66,7 @@ def create_map():
 		m[19][j] = -1
 
 	# small block, left
+
 	m[10][9] = -1
 	m[10][14] = -1
 	m[10][8] = -1
@@ -74,7 +75,7 @@ def create_map():
 	m[9][15] = -1
 	m[11][9] = -1
 	m[11][15] = -1
-	m[12][15] = -1
+	m[10][15] = -1
 
 	for i in range(8, 13):
 		for j in range(10, 15):
@@ -138,6 +139,8 @@ def create_map():
 	m[10][22] = -1
 	m[12][18] = -1
 	m[13][17] = -1
+	m[13][16] = -1
+	m[11][18] = -1
 
 	for i in range(11, 19):
 		for j in range(19, 22):
