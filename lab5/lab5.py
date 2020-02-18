@@ -31,8 +31,8 @@ def pid_rot_tuning_right(robot):
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = -39
-    powR = 39
+    powL = -40
+    powR = 40
     while (currTime - startTime <= targetT + 2 * rampTime):
         currTime = time.time() 
         if (first):
@@ -63,8 +63,8 @@ def pid_rot_tuning_left(robot):
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = 39
-    powR = -39
+    powL = 41
+    powR = -41
     targetT = 0.2
     rampTime = 0.15
     while (currTime - startTime <= targetT + 2 * rampTime):
@@ -89,8 +89,8 @@ def pid_rot_tuning_left(robot):
 
 def pid_straight_tuning(robot):
     # tuning the velocity to be 0.75, w to be 0
-    Kpr = 0
-    Kpl = 0
+    Kpr = 1
+    Kpl = 1
     targetV = 4
     targetW = 0
     nowTime = time.time()
