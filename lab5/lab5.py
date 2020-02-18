@@ -90,16 +90,16 @@ def pid_rot_tuning_right(robot):
 
 def pid_rot_tuning_left(robot):
     # tuning the velocity to be 0.75, w to be 0
-    Kpr = 0.5
-    Kpl = 0.75
+    Kpr = 0.25
+    Kpl = 0.25
     targetV = 0
     targetW = (-math.pi / 2) 
     nowTime = time.time()
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = 20
-    powR = -20
+    powL = 24
+    powR = -24
     targetT = 0.2
     rampTime = 0.15
     while (currTime - startTime <= targetT + 2 * rampTime):
@@ -215,6 +215,14 @@ def main_loop(xstart, ystart, xgoal, ygoal, convert=False):
                 time.sleep(0.65)
         robot.stop()
 
+def in_neighbor(ang):
+    angs = [0, math.pi/4, math.pi/2, 3 * math.pi / 4, math.pi, -math.pi/4, -math.pi/2, -3 * math.pi / 4]
+    for angle in angs:
+        if ((ang - angle)**2) < 0.01:
+            return angle
+
+    
+
 def main_loop8(xstart, ystart, xgoal, ygoal, convert=False):
         robot = rb.Robot(wheelbase=3.75, radius=1.125)
         robot.stop()
@@ -229,6 +237,7 @@ def main_loop8(xstart, ystart, xgoal, ygoal, convert=False):
             elif (distance == 2):
                 pid_diag_tuning(robot)
             time.sleep(0.35)
+            theta = in_neighbor(theta)
             if (theta == -math.pi / 4):
                 pid_rot_tuning_left(robot)
                 time.sleep(0.65)
@@ -248,6 +257,7 @@ def main_loop8(xstart, ystart, xgoal, ygoal, convert=False):
                 pid_rot_tuning_right(robot)
                 time.sleep(0.65)
             elif (theta == math.pi / 2):
+                print(theta)
                 pid_rot_tuning_right(robot)
                 time.sleep(0.375)
                 pid_rot_tuning_right(robot)
