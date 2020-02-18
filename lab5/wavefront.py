@@ -203,6 +203,151 @@ def relative_translations(path, xi, yi):
                 pathRobotFrame.append(transPpr)
         return pathRobotFrame
 
+def relative_rotations8(transpath):
+        rotpath = []
+        for i in range(len(transpath) - 1):
+                point = transpath[i]
+                nextPoint = transpath[i+1]
+                if (point == [0, 1, 0]):
+                        if (nextPoint == [0, 1, 0]):
+                                rotpath.append(0)
+                        elif(nextPoint == [0, -1, 0]):
+                                rotpath.append(math.pi)
+                        elif (nextPoint == [1, 0, 0]):
+                                rotpath.append(math.pi/2)
+                        elif (nextPoint == [-1, 0, 0]):
+                                rotpath.append(-math.pi/2)
+                        elif (nextPoint == [1, -1, 0]):
+                                rotpath.append(-3 * math.pi / 4)
+                        elif (nextPoint == [-1, 1, 0]):
+                                rotpath.append(math.pi / 4)
+                        elif (nextPoint == [1, 1, 0]):
+                                rotpath.append(-math.pi / 4)
+                        elif (nextPoint == [-1, -1, 0]):
+                                rotpath.append(3 * math.pi / 4)
+                elif (point == [1, 1, 0]):
+                        if (nextPoint == [1, 1, 0]):
+                                rotpath.append(0)
+                        elif(nextPoint == [-1, -1, 0]):
+                                rotpath.append(math.pi)
+                        elif (nextPoint == [1, 0, 0]):
+                                rotpath.append(math.pi/4)
+                        elif (nextPoint == [-1, 0, 0]):
+                                rotpath.append(-3 * math.pi/4)
+                        elif (nextPoint == [1, -1, 0]):
+                                rotpath.append(- math.pi / 2)
+                        elif (nextPoint == [-1, 1, 0]):
+                                rotpath.append(math.pi / 2)
+                        elif (nextPoint == [0, 1, 0]):
+                                rotpath.append(math.pi / 4)
+                        elif (nextPoint == [0, -1, 0]):
+                                rotpath.append(-3 * math.pi / 4)
+                elif (point == [1, 0, 0]):
+                        if (nextPoint == [1, 0, 0]):
+                                rotpath.append(0)
+                        elif(nextPoint == [-1, 0, 0]):
+                                rotpath.append(math.pi)
+                        elif (nextPoint == [1, -1, 0]):
+                                rotpath.append(math.pi/4)
+                        elif (nextPoint == [-1, -1, 0]):
+                                rotpath.append(-3 * math.pi/4)
+                        elif (nextPoint == [0, -1, 0]):
+                                rotpath.append(- math.pi / 2)
+                        elif (nextPoint == [0, 1, 0]):
+                                rotpath.append(math.pi / 2)
+                        elif (nextPoint == [1, 1, 0]):
+                                rotpath.append(math.pi / 4)
+                        elif (nextPoint == [-1, -1, 0]):
+                                rotpath.append(-3 * math.pi / 4)
+                elif (point == [1, -1, 0]):
+                        if (nextPoint == [1, -1, 0]):
+                                rotpath.append(0)
+                        elif(nextPoint == [-1, -1, 0]):
+                                rotpath.append(-math.pi / 2)
+                        elif (nextPoint == [1, 0, 0]):
+                                rotpath.append(math.pi/4)
+                        elif (nextPoint == [0, -1, 0]):
+                                rotpath.append(-math.pi/4)
+                        elif (nextPoint == [-1, 0, 0]):
+                                rotpath.append(- 3 * math.pi / 4)
+                        elif (nextPoint == [0, 1, 0]):
+                                rotpath.append(math.pi / 2)
+                        elif (nextPoint == [-1, 1, 0]):
+                                rotpath.append(math.pi)
+                        elif (nextPoint == [1, 1, 0]):
+                                rotpath.append(3 * math.pi / 4)
+                elif (point == [0, -1, 0]):
+                        if (nextPoint == [0, -1, 0]):
+                                rotpath.append(0)
+                        elif(nextPoint == [-1, 0, 0]):
+                                rotpath.append(-math.pi / 2)
+                        elif (nextPoint == [1, -1, 0]):
+                                rotpath.append(math.pi/4)
+                        elif (nextPoint == [-1, -1, 0]):
+                                rotpath.append(-math.pi/4)
+                        elif (nextPoint == [-1, 1, 0]):
+                                rotpath.append(- 3 * math.pi / 4)
+                        elif (nextPoint == [1, 0, 0]):
+                                rotpath.append(math.pi / 2)
+                        elif (nextPoint == [0, 1, 0]):
+                                rotpath.append(math.pi)
+                        elif (nextPoint == [1, 1, 0]):
+                                rotpath.append(3 * math.pi / 4)
+                elif (point == [-1, -1, 0]):
+                        if (nextPoint == [-1, -1, 0]):
+                                rotpath.append(0)
+                        elif(nextPoint == [-1, 1, 0]):
+                                rotpath.append(-math.pi / 2)
+                        elif (nextPoint == [0, -1, 0]):
+                                rotpath.append(math.pi/4)
+                        elif (nextPoint == [-1, 0, 0]):
+                                rotpath.append(-math.pi/4)
+                        elif (nextPoint == [0, 1, 0]):
+                                rotpath.append(- 3 * math.pi / 4)
+                        elif (nextPoint == [1, -1, 0]):
+                                rotpath.append(math.pi / 2)
+                        elif (nextPoint == [1, 1, 0]):
+                                rotpath.append(math.pi)
+                        elif (nextPoint == [1, 0, 0]):
+                                rotpath.append(3 * math.pi / 4)
+                elif (point == [-1, 0, 0]):
+                        if (nextPoint == [-1, 0, 0]):
+                                rotpath.append(0)
+                        elif(nextPoint == [0, 1, 0]):
+                                rotpath.append(-math.pi / 2)
+                        elif (nextPoint == [-1, -1, 0]):
+                                rotpath.append(math.pi/4)
+                        elif (nextPoint == [-1, 1, 0]):
+                                rotpath.append(-math.pi/4)
+                        elif (nextPoint == [1, 1, 0]):
+                                rotpath.append(- 3 * math.pi / 4)
+                        elif (nextPoint == [0, -1, 0]):
+                                rotpath.append(math.pi / 2)
+                        elif (nextPoint == [1, 0, 0]):
+                                rotpath.append(math.pi)
+                        elif (nextPoint == [1, -1, 0]):
+                                rotpath.append(3 * math.pi / 4)
+                elif (point == [-1, 1, 0]):
+                        if (nextPoint == [-1, 1, 0]):
+                                rotpath.append(0)
+                        elif(nextPoint == [1, 1, 0]):
+                                rotpath.append(-math.pi / 2)
+                        elif (nextPoint == [-1, 0, 0]):
+                                rotpath.append(math.pi/4)
+                        elif (nextPoint == [0, 1, 0]):
+                                rotpath.append(-math.pi/4)
+                        elif (nextPoint == [1, 0, 0]):
+                                rotpath.append(- 3 * math.pi / 4)
+                        elif (nextPoint == [-1, -1, 0]):
+                                rotpath.append(math.pi / 2)
+                        elif (nextPoint == [1, -1, 0]):
+                                rotpath.append(math.pi)
+                        elif (nextPoint == [0, -1, 0]):
+                                rotpath.append(3 * math.pi / 4)
+        rotpath.append(0)
+        return rotpath
+
+
 def relative_rotations(transpath):
         rotpath = []
         for i in range(len(transpath) - 1):
@@ -243,18 +388,62 @@ def relative_rotations(transpath):
         rotpath.append(0)
         return rotpath
 
+def norm(vec):
+        total = 0
+        for item in vec:
+                total = total + item**2
+        return total
+
+def to_distances8(transpath):
+        distanceList = []
+        for item in transpath:
+                if (norm(item) == 2):
+                        distanceList.append(2)
+                else:
+                        distanceList.append(norm(item))
+        distanceList[0] = 0
+        return distanceList
+
 def to_ones(transpath):
         oneList = [1 for item in transpath]
         oneList[0] = 0
         return oneList
 
+def combined_path8(path, xi, yi):
+        transpath = relative_translations(path, xi, yi)
+        print(transpath)
+        transpath.insert(0, [0, 1, 0])
+        rotpath = relative_rotations8(transpath)
+        onespath = to_distances8(transpath)
+        finalRobotPath = zip(onespath, rotpath)
+        return list(finalRobotPath)
+
 def combined_path(path, xi, yi):
         transpath = relative_translations(path, xi, yi)
+        print(transpath)
         transpath.insert(0, [0, 1, 0])
-        rotpath = relative_rotations(transpath)
+        rotpath = relative_rotations4(transpath)
         onespath = to_ones(transpath)
         finalRobotPath = zip(onespath, rotpath)
         return list(finalRobotPath)
+
+def full_path_8point(xstart, ystart, xgoal, ygoal, testing=False, testGrid=None, convertInput=False):
+        if (testing):
+                grid = testGrid
+        else:
+                grid = gd.create_map()
+        if (convertInput):
+                xgoal = math.floor(xgoal/2)
+                ygoal = math.floor(ygoal/2)
+                xstart = math.floor(xstart/2)
+                ystart = math.floor(ystart/2)
+        print(grid)
+        wv = wave8(grid, xgoal, ygoal)
+        pretty_print(wv, 'grid.txt')
+        init_path = find_path(wv, xstart, ystart, False)
+        print(init_path)
+        pretty_print_path(grid, init_path)
+        return combined_path8(init_path, xstart, ystart)
 
 def full_path_4point(xstart, ystart, xgoal, ygoal, testing=False, testGrid=None, convertInput=False):
         if (testing):

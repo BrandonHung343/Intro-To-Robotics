@@ -60,14 +60,14 @@ def pid_rot_tuning_right(robot):
     Kpl = 0.25
     targetV = 0
     rampTime = 0.15
-    targetW = math.pi
+    targetW = math.pi / 2
     targetT = 0.2
     nowTime = time.time()
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = -42
-    powR = 42
+    powL = -20
+    powR = 20
     while (currTime - startTime <= targetT + 2 * rampTime):
         currTime = time.time() 
         if (first):
@@ -93,13 +93,13 @@ def pid_rot_tuning_left(robot):
     Kpr = 0.5
     Kpl = 0.75
     targetV = 0
-    targetW = (-math.pi) 
+    targetW = (-math.pi / 2) 
     nowTime = time.time()
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = 41
-    powR = -41
+    powL = 20
+    powR = -20
     targetT = 0.2
     rampTime = 0.15
     while (currTime - startTime <= targetT + 2 * rampTime):
@@ -120,6 +120,40 @@ def pid_rot_tuning_left(robot):
             # print(pows)
             robot.drive_robot_power(powL + pows[0], powR + pows[1]) 
         time.sleep(0.025)
+    robot.stop()
+
+def pid_diag_tuning(robot):
+    # tuning the velocity to be 0.75, w to be 0
+    Kpr = 1.5
+    Kpl = 1.5
+    targetV = 5.65
+    targetW = 0
+    nowTime = time.time()
+    startTime = nowTime
+    first = True
+    currTime = nowTime
+    powL = 37
+    powR = 37
+    rampTime = 0.15
+    targetT = 0.2
+    while (currTime - startTime <= targetT + 2 * rampTime):
+        currTime = time.time() 
+        if (first):
+            first = False
+        else:
+            dt = currTime - nowTime
+            targetV = 5.65
+            targetV = ramp_velocity(targetV, currTime - startTime, rampTime)
+            pows = robot.pid_Vw(targetV, targetW, Kpl, Kpr, dt) 
+            robot.update_odometry(dt)
+            ''' print('Time %.3f' % (currTime - startTime))
+            print('Odom', robot.get_odometry())
+            print('Displacement of L, R', robot.get_wheel_displacement())
+            print('Enc Readgins', robot.get_encoder_readings())'''
+            nowTime = currTime
+            # print(pows)
+            robot.drive_robot_power(powL + pows[0], powR + pows[1]) 
+        time.sleep(0.05)
     robot.stop()
 
 def pid_straight_tuning(robot):
@@ -165,7 +199,7 @@ def main_loop(xstart, ystart, xgoal, ygoal, convert=False):
         for waypoint in path:
             distance = waypoint[0]
             theta = waypoint[1]
-            if (distance):
+            if (distance == 1):
                 pid_straight_tuning(robot)
             time.sleep(0.35)
             if (theta == math.pi):
@@ -181,5 +215,59 @@ def main_loop(xstart, ystart, xgoal, ygoal, convert=False):
                 time.sleep(0.65)
         robot.stop()
 
+def main_loop8(xstart, ystart, xgoal, ygoal, convert=False):
+        robot = rb.Robot(wheelbase=3.75, radius=1.125)
+        robot.stop()
+        path = wv.full_path_8point(xstart, ystart, xgoal, ygoal, convertInput=convert)
+        print(path)
+        time.sleep(1)
+        for waypoint in path:
+            distance = waypoint[0]
+            theta = waypoint[1]
+            if (distance == 1):
+                pid_straight_tuning(robot)
+            elif (distance == 2):
+                pid_diag_tuning(robot):
+            time.sleep(0.35)
+            if (theta == -math.pi / 4):
+                pid.pid_rot_tuning_left(robot)
+                time.sleep(0.65)
+            elif (theta == -math.pi / 2):
+                pid_rot_tuning_left(robot)
+                time.sleep(0.375)
+                pid_rot_tuning_left(robot)
+                time.sleep(0.375)
+            elif(theta == -3 * math.pi / 4):
+                pid_rot_tuning_left(robot)
+                time.sleep(0.65/3)
+                pid_rot_tuning_left(robot)
+                time.sleep(0.65/3)
+                pid_rot_tuning_left(robot)
+                time.sleep(0.65/3)
+            elif (theta == math.pi / 4):
+                pid.pid_rot_tuning_right(robot)
+                time.sleep(0.65)
+            elif (theta == math.pi / 2):
+                pid_rot_tuning_right(robot)
+                time.sleep(0.375)
+                pid_rot_tuning_right(robot)
+                time.sleep(0.375)
+            elif(theta == 3 * math.pi / 4):
+                pid_rot_tuning_right(robot)
+                time.sleep(0.65/3)
+                pid_rot_tuning_right(robot)
+                time.sleep(0.65/3)
+                pid_rot_tuning_right(robot)
+                time.sleep(0.65/3)
+            elif (theta == math.pi):
+                pid_rot_tuning_left(robot)
+                time.sleep(0.65/4)
+                pid_rot_tuning_left(robot)
+                time.sleep(0.65/4)
+                pid_rot_tuning_left(robot)
+                time.sleep(0.65/4)
+                pid_rot_tuning_left(robot)
+                time.sleep(0.65/4)
+        robot.stop()
 
 # path = wv.full_path_4point(36, 14, 33, 17, convertInput=True)
