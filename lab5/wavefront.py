@@ -261,152 +261,152 @@ def assign_angles(transpath):
                 currAngle = nextAngle
         return angList
 
-def relative_rotations8(transpath):
-        rotpath = []
-        for i in range(len(transpath) - 1):
-                point = transpath[i]
-                nextPoint = transpath[i+1]
-                if (point == [0, 1, 0]):
-                        if (nextPoint == [0, 1, 0]):
-                                rotpath.append(0)
-                        elif(nextPoint == [0, -1, 0]):
-                                rotpath.append(math.pi)
-                        elif (nextPoint == [1, 0, 0]):
-                                rotpath.append(math.pi/2)
-                        elif (nextPoint == [-1, 0, 0]):
-                                rotpath.append(-math.pi/2)
-                        elif (nextPoint == [1, -1, 0]):
-                                rotpath.append(-3 * math.pi / 4)
-                        elif (nextPoint == [-1, 1, 0]):
-                                rotpath.append(math.pi / 4)
-                        elif (nextPoint == [1, 1, 0]):
-                                rotpath.append(-math.pi / 4)
-                        elif (nextPoint == [-1, -1, 0]):
-                                rotpath.append(3 * math.pi / 4)
-                elif (point == [1, 1, 0]):
-                        if (nextPoint == [1, 1, 0]):
-                                rotpath.append(0)
-                        elif(nextPoint == [-1, -1, 0]):
-                                rotpath.append(math.pi)
-                        elif (nextPoint == [1, 0, 0]):
-                                rotpath.append(math.pi/4)
-                        elif (nextPoint == [-1, 0, 0]):
-                                rotpath.append(-3 * math.pi/4)
-                        elif (nextPoint == [1, -1, 0]):
-                                rotpath.append(- math.pi / 2)
-                        elif (nextPoint == [-1, 1, 0]):
-                                rotpath.append(math.pi / 2)
-                        elif (nextPoint == [0, 1, 0]):
-                                rotpath.append(math.pi / 4)
-                        elif (nextPoint == [0, -1, 0]):
-                                rotpath.append(-3 * math.pi / 4)
-                elif (point == [1, 0, 0]):
-                        if (nextPoint == [1, 0, 0]):
-                                rotpath.append(0)
-                        elif(nextPoint == [-1, 0, 0]):
-                                rotpath.append(math.pi)
-                        elif (nextPoint == [1, -1, 0]):
-                                rotpath.append(math.pi/4)
-                        elif (nextPoint == [-1, -1, 0]):
-                                rotpath.append(-3 * math.pi/4)
-                        elif (nextPoint == [0, -1, 0]):
-                                rotpath.append(- math.pi / 2)
-                        elif (nextPoint == [0, 1, 0]):
-                                rotpath.append(math.pi / 2)
-                        elif (nextPoint == [1, 1, 0]):
-                                rotpath.append(math.pi / 4)
-                        elif (nextPoint == [-1, -1, 0]):
-                                rotpath.append(-3 * math.pi / 4)
-                elif (point == [1, -1, 0]):
-                        if (nextPoint == [1, -1, 0]):
-                                rotpath.append(0)
-                        elif(nextPoint == [-1, -1, 0]):
-                                rotpath.append(-math.pi / 2)
-                        elif (nextPoint == [1, 0, 0]):
-                                rotpath.append(math.pi/4)
-                        elif (nextPoint == [0, -1, 0]):
-                                rotpath.append(-math.pi/4)
-                        elif (nextPoint == [-1, 0, 0]):
-                                rotpath.append(- 3 * math.pi / 4)
-                        elif (nextPoint == [0, 1, 0]):
-                                rotpath.append(math.pi / 2)
-                        elif (nextPoint == [-1, 1, 0]):
-                                rotpath.append(math.pi)
-                        elif (nextPoint == [1, 1, 0]):
-                                rotpath.append(3 * math.pi / 4)
-                elif (point == [0, -1, 0]):
-                        if (nextPoint == [0, -1, 0]):
-                                rotpath.append(0)
-                        elif(nextPoint == [-1, 0, 0]):
-                                rotpath.append(-math.pi / 2)
-                        elif (nextPoint == [1, -1, 0]):
-                                rotpath.append(math.pi/4)
-                        elif (nextPoint == [-1, -1, 0]):
-                                rotpath.append(-math.pi/4)
-                        elif (nextPoint == [-1, 1, 0]):
-                                rotpath.append(- 3 * math.pi / 4)
-                        elif (nextPoint == [1, 0, 0]):
-                                rotpath.append(math.pi / 2)
-                        elif (nextPoint == [0, 1, 0]):
-                                rotpath.append(math.pi)
-                        elif (nextPoint == [1, 1, 0]):
-                                rotpath.append(3 * math.pi / 4)
-                elif (point == [-1, -1, 0]):
-                        if (nextPoint == [-1, -1, 0]):
-                                rotpath.append(0)
-                        elif(nextPoint == [-1, 1, 0]):
-                                rotpath.append(-math.pi / 2)
-                        elif (nextPoint == [0, -1, 0]):
-                                rotpath.append(math.pi/4)
-                        elif (nextPoint == [-1, 0, 0]):
-                                rotpath.append(-math.pi/4)
-                        elif (nextPoint == [0, 1, 0]):
-                                rotpath.append(- 3 * math.pi / 4)
-                        elif (nextPoint == [1, -1, 0]):
-                                rotpath.append(math.pi / 2)
-                        elif (nextPoint == [1, 1, 0]):
-                                rotpath.append(math.pi)
-                        elif (nextPoint == [1, 0, 0]):
-                                rotpath.append(3 * math.pi / 4)
-                elif (point == [-1, 0, 0]):
-                        if (nextPoint == [-1, 0, 0]):
-                                rotpath.append(0)
-                        elif(nextPoint == [0, 1, 0]):
-                                rotpath.append(-math.pi / 2)
-                        elif (nextPoint == [-1, -1, 0]):
-                                rotpath.append(math.pi/4)
-                        elif (nextPoint == [-1, 1, 0]):
-                                rotpath.append(-math.pi/4)
-                        elif (nextPoint == [1, 1, 0]):
-                                rotpath.append(- 3 * math.pi / 4)
-                        elif (nextPoint == [0, -1, 0]):
-                                rotpath.append(math.pi / 2)
-                        elif (nextPoint == [1, 0, 0]):
-                                rotpath.append(math.pi)
-                        elif (nextPoint == [1, -1, 0]):
-                                rotpath.append(3 * math.pi / 4)
-                elif (point == [-1, 1, 0]):
-                        if (nextPoint == [-1, 1, 0]):
-                                rotpath.append(0)
-                        elif(nextPoint == [1, 1, 0]):
-                                rotpath.append(-math.pi / 2)
-                        elif (nextPoint == [-1, 0, 0]):
-                                rotpath.append(math.pi/4)
-                        elif (nextPoint == [0, 1, 0]):
-                                rotpath.append(-math.pi/4)
-                        elif (nextPoint == [1, 0, 0]):
-                                rotpath.append(- 3 * math.pi / 4)
-                        elif (nextPoint == [-1, -1, 0]):
-                                rotpath.append(math.pi / 2)
-                        elif (nextPoint == [1, -1, 0]):
-                                rotpath.append(math.pi)
-                        elif (nextPoint == [0, -1, 0]):
-                                rotpath.append(3 * math.pi / 4)
-        rotpath.append(0)
-        for i in range(len(rotpath)):
-            rotpath[i] = -rotpath[i]
+# def relative_rotations8(transpath):
+#         rotpath = []
+#         for i in range(len(transpath) - 1):
+#                 point = transpath[i]
+#                 nextPoint = transpath[i+1]
+#                 if (point == [0, 1, 0]):
+#                         if (nextPoint == [0, 1, 0]):
+#                                 rotpath.append(0)
+#                         elif(nextPoint == [0, -1, 0]):
+#                                 rotpath.append(math.pi)
+#                         elif (nextPoint == [1, 0, 0]):
+#                                 rotpath.append(math.pi/2)
+#                         elif (nextPoint == [-1, 0, 0]):
+#                                 rotpath.append(-math.pi/2)
+#                         elif (nextPoint == [1, -1, 0]):
+#                                 rotpath.append(-3 * math.pi / 4)
+#                         elif (nextPoint == [-1, 1, 0]):
+#                                 rotpath.append(math.pi / 4)
+#                         elif (nextPoint == [1, 1, 0]):
+#                                 rotpath.append(-math.pi / 4)
+#                         elif (nextPoint == [-1, -1, 0]):
+#                                 rotpath.append(3 * math.pi / 4)
+#                 elif (point == [1, 1, 0]):
+#                         if (nextPoint == [1, 1, 0]):
+#                                 rotpath.append(0)
+#                         elif(nextPoint == [-1, -1, 0]):
+#                                 rotpath.append(math.pi)
+#                         elif (nextPoint == [1, 0, 0]):
+#                                 rotpath.append(math.pi/4)
+#                         elif (nextPoint == [-1, 0, 0]):
+#                                 rotpath.append(-3 * math.pi/4)
+#                         elif (nextPoint == [1, -1, 0]):
+#                                 rotpath.append(- math.pi / 2)
+#                         elif (nextPoint == [-1, 1, 0]):
+#                                 rotpath.append(math.pi / 2)
+#                         elif (nextPoint == [0, 1, 0]):
+#                                 rotpath.append(math.pi / 4)
+#                         elif (nextPoint == [0, -1, 0]):
+#                                 rotpath.append(-3 * math.pi / 4)
+#                 elif (point == [1, 0, 0]):
+#                         if (nextPoint == [1, 0, 0]):
+#                                 rotpath.append(0)
+#                         elif(nextPoint == [-1, 0, 0]):
+#                                 rotpath.append(math.pi)
+#                         elif (nextPoint == [1, -1, 0]):
+#                                 rotpath.append(math.pi/4)
+#                         elif (nextPoint == [-1, -1, 0]):
+#                                 rotpath.append(-3 * math.pi/4)
+#                         elif (nextPoint == [0, -1, 0]):
+#                                 rotpath.append(- math.pi / 2)
+#                         elif (nextPoint == [0, 1, 0]):
+#                                 rotpath.append(math.pi / 2)
+#                         elif (nextPoint == [1, 1, 0]):
+#                                 rotpath.append(math.pi / 4)
+#                         elif (nextPoint == [-1, -1, 0]):
+#                                 rotpath.append(-3 * math.pi / 4)
+#                 elif (point == [1, -1, 0]):
+#                         if (nextPoint == [1, -1, 0]):
+#                                 rotpath.append(0)
+#                         elif(nextPoint == [-1, -1, 0]):
+#                                 rotpath.append(-math.pi / 2)
+#                         elif (nextPoint == [1, 0, 0]):
+#                                 rotpath.append(math.pi/4)
+#                         elif (nextPoint == [0, -1, 0]):
+#                                 rotpath.append(-math.pi/4)
+#                         elif (nextPoint == [-1, 0, 0]):
+#                                 rotpath.append(- 3 * math.pi / 4)
+#                         elif (nextPoint == [0, 1, 0]):
+#                                 rotpath.append(math.pi / 2)
+#                         elif (nextPoint == [-1, 1, 0]):
+#                                 rotpath.append(math.pi)
+#                         elif (nextPoint == [1, 1, 0]):
+#                                 rotpath.append(3 * math.pi / 4)
+#                 elif (point == [0, -1, 0]):
+#                         if (nextPoint == [0, -1, 0]):
+#                                 rotpath.append(0)
+#                         elif(nextPoint == [-1, 0, 0]):
+#                                 rotpath.append(-math.pi / 2)
+#                         elif (nextPoint == [1, -1, 0]):
+#                                 rotpath.append(math.pi/4)
+#                         elif (nextPoint == [-1, -1, 0]):
+#                                 rotpath.append(-math.pi/4)
+#                         elif (nextPoint == [-1, 1, 0]):
+#                                 rotpath.append(- 3 * math.pi / 4)
+#                         elif (nextPoint == [1, 0, 0]):
+#                                 rotpath.append(math.pi / 2)
+#                         elif (nextPoint == [0, 1, 0]):
+#                                 rotpath.append(math.pi)
+#                         elif (nextPoint == [1, 1, 0]):
+#                                 rotpath.append(3 * math.pi / 4)
+#                 elif (point == [-1, -1, 0]):
+#                         if (nextPoint == [-1, -1, 0]):
+#                                 rotpath.append(0)
+#                         elif(nextPoint == [-1, 1, 0]):
+#                                 rotpath.append(-math.pi / 2)
+#                         elif (nextPoint == [0, -1, 0]):
+#                                 rotpath.append(math.pi/4)
+#                         elif (nextPoint == [-1, 0, 0]):
+#                                 rotpath.append(-math.pi/4)
+#                         elif (nextPoint == [0, 1, 0]):
+#                                 rotpath.append(- 3 * math.pi / 4)
+#                         elif (nextPoint == [1, -1, 0]):
+#                                 rotpath.append(math.pi / 2)
+#                         elif (nextPoint == [1, 1, 0]):
+#                                 rotpath.append(math.pi)
+#                         elif (nextPoint == [1, 0, 0]):
+#                                 rotpath.append(3 * math.pi / 4)
+#                 elif (point == [-1, 0, 0]):
+#                         if (nextPoint == [-1, 0, 0]):
+#                                 rotpath.append(0)
+#                         elif(nextPoint == [0, 1, 0]):
+#                                 rotpath.append(-math.pi / 2)
+#                         elif (nextPoint == [-1, -1, 0]):
+#                                 rotpath.append(math.pi/4)
+#                         elif (nextPoint == [-1, 1, 0]):
+#                                 rotpath.append(-math.pi/4)
+#                         elif (nextPoint == [1, 1, 0]):
+#                                 rotpath.append(- 3 * math.pi / 4)
+#                         elif (nextPoint == [0, -1, 0]):
+#                                 rotpath.append(math.pi / 2)
+#                         elif (nextPoint == [1, 0, 0]):
+#                                 rotpath.append(math.pi)
+#                         elif (nextPoint == [1, -1, 0]):
+#                                 rotpath.append(3 * math.pi / 4)
+#                 elif (point == [-1, 1, 0]):
+#                         if (nextPoint == [-1, 1, 0]):
+#                                 rotpath.append(0)
+#                         elif(nextPoint == [1, 1, 0]):
+#                                 rotpath.append(-math.pi / 2)
+#                         elif (nextPoint == [-1, 0, 0]):
+#                                 rotpath.append(math.pi/4)
+#                         elif (nextPoint == [0, 1, 0]):
+#                                 rotpath.append(-math.pi/4)
+#                         elif (nextPoint == [1, 0, 0]):
+#                                 rotpath.append(- 3 * math.pi / 4)
+#                         elif (nextPoint == [-1, -1, 0]):
+#                                 rotpath.append(math.pi / 2)
+#                         elif (nextPoint == [1, -1, 0]):
+#                                 rotpath.append(math.pi)
+#                         elif (nextPoint == [0, -1, 0]):
+#                                 rotpath.append(3 * math.pi / 4)
+#         rotpath.append(0)
+#         for i in range(len(rotpath)):
+#             rotpath[i] = -rotpath[i]
 
-        return rotpath
+#         return rotpath
 
 
 def relative_rotations(transpath):

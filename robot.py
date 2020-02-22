@@ -11,7 +11,7 @@ class Robot:
         self.wheelbase = wheelbase # in inches
         self.radius = radius # in inches too
         # add to the dictionary below once we figure out the other sensor names
-        self.sensorDict = {'light': self.BP.SENSOR_TYPE.NXT_LIGHT_ON}
+        self.sensorDict = {'light': self.BP.SENSOR_TYPE.NXT_LIGHT_ON, 'ultrasonic': self.BP.SENSOR_TYPE.NXT_ULTRASONIC}
  #        self.odom = odom.Odom(self.wheelbase, self.radius)
         # currently assumes that only ports B and C are used for motors
         # also assumes that the sensor is in S1
