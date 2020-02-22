@@ -23,7 +23,8 @@ class Robot:
         self.sensorList = [self.BP.PORT_1, self.BP.PORT_2, self.BP.PORT_3, self.BP.PORT_4]
         # set the left and right motors
         self.motorLeft = self.portB
-        self.motorRight = self.portD
+        self.motorRight = self.portC
+        self.cons = 0.97
         # cap on the motor power
         self.motorCap = 100
         self.BP.reset_motor_encoder(self.motorLeft)
@@ -119,7 +120,7 @@ class Robot:
 
         self.x = self.x + avg_t * (x0 + 2 * (x1 + x2) + x3)
         self.y = self.y + avg_t * (y0 + 2 * (y1 + y2) + y3)
-        self.theta = self.theta + w * dt
+        self.theta = self.theta + w * dt * self.cons
 
         self.rotL = rads[0]
         self.rotR = rads[1]

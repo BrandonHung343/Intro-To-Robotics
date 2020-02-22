@@ -66,8 +66,8 @@ def pid_rot_tuning_right(robot):
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = -20
-    powR = 20
+    powL = -22
+    powR = 22
     while (currTime - startTime <= targetT + 2 * rampTime):
         currTime = time.time() 
         if (first):
@@ -98,8 +98,8 @@ def pid_rot_tuning_left(robot):
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = 24
-    powR = -24
+    powL = 22
+    powR = -22
     targetT = 0.2
     rampTime = 0.15
     while (currTime - startTime <= targetT + 2 * rampTime):
@@ -132,8 +132,8 @@ def pid_diag_tuning(robot):
     startTime = nowTime
     first = True
     currTime = nowTime
-    powL = 32
-    powR = 32
+    powL = 37
+    powR = 37
     rampTime = 0.15
     targetT = 0.2
     while (currTime - startTime <= targetT + 2 * rampTime):
