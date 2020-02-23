@@ -29,17 +29,25 @@ def calibrate(robot):
         print(robot.get_sensor(2))
         time.sleep(0.5)
 
+def calibrate_ultrasonic(robot):
+    time.sleep(5)
+    while(True):
+        print(robot.get_sensor(1))
+        time.sleep(0.5)
+
 def main():
         robot.stop()
-        # signal.signal(signal.SIGINT, signal_handler)
+        signal.signal(signal.SIGINT, signal_handler)
         robot.set_sensor(2, 'light')
+        robot.set_sensor(1, 'ultrasonic')
         time.sleep(1)
         baseLight = 2300 # figure out the line's sensor reading by observation
         baseSpeed = [20, 20]
         # use calibrate only if checking sensor values
         # calibrate(robot)
+        calibrate_ultrasonic(robot)
         # lightSensor = find_line_right(robot)
-        kp = 0.1 # figure out this value later
+        kp = 0.15 # figure out this value later
         kd = 0.0000 # gotta tune this value
         # rotates to the right
         lastErr = 0

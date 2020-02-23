@@ -8,6 +8,7 @@ import numpy as np
 class Robot:
     def __init__(self, wheelbase=4.25, radius=1.125):
         self.BP = brickpi3.BrickPi3()
+        self.BP.reset_all()
         self.wheelbase = wheelbase # in inches
         self.radius = radius # in inches too
         # add to the dictionary below once we figure out the other sensor names
@@ -24,7 +25,7 @@ class Robot:
         # set the left and right motors
         self.motorLeft = self.portB
         self.motorRight = self.portC
-        self.cons = 0.97
+        self.cons = 1.0
         # cap on the motor power
         self.motorCap = 100
         self.BP.reset_motor_encoder(self.motorLeft)
