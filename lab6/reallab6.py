@@ -41,7 +41,7 @@ def update_transition_last_two(prob_map, rel_theta, started=True):
     # odom theta should be mod 2 * pi
     if (not started):
         return []
-        
+
     new_prob_map = np.zeros(len(prob_map))
 
     for i in range(len(prob_map)):
@@ -94,7 +94,7 @@ def update_observation_probabilities(prob_map, obs, bitVec, zeroIndices, oneIndi
 # 	return bitVec[start:] + bitVec[:start]
 
 def get_obs():
-	return robot.get_sensor(1) <= 128
+	return robot.get_sensor(1) <= 75
 
 
 def mainloop(bitVec, goal):
