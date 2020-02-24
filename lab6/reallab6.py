@@ -42,7 +42,7 @@ def update_transition_last_two(prob_map, rel_theta, started=True):
     if (not started):
         return []
 
-    new_prob_map = np.zeros(len(prob_map))
+    new_prob_map = [0 for i in range(len(prob_map))]
 
     for i in range(len(prob_map)):
         new_prob_map[i] = last_two_prob(prob_map, i, rel_theta)
@@ -72,16 +72,21 @@ def update_transition_last_two(prob_map, rel_theta, started=True):
 
 def update_observation_probabilities(prob_map, obs, bitVec, zeroIndices, oneIndices, started=True):
     new_prob_map = copy.deepcopy(prob_map)
-    prob_vec = np.zeros(len(prob_map))
+    # prob_vec = [0 for i in range(len(prob_map))]
     if (not started):
     	return []
     if (not obs):
-        prob_vec[zeroIndices] = 0.95
-        prob_vec[oneIndices] = 0.05
+    	for i in range(len(prob_map)):
+    		if (i in zeroIndices):
+    			new_prob_map[i] = prob_map[i] * 0.95
+    		else:
+    			new_prob_map[i] = prob_map[i] * 0.05
     else:
-        prob_vec[zeroIndices] = 0.1
-        prob_vec[oneIndices] = 0.9
-    new_prob_map = np.multiply(new_prob_map, prob_vec)
+    	for i in range(len(prob_map)):
+    		if (i in oneIndices):
+    			new_prob_map[i] = prob_map[i] * 0.9
+    		else:
+    			new_prob_map[i] = prob_map[i] * 0.1
     return normalize(new_prob_map) 
 
 # def getBitVec(vecsize):
@@ -99,9 +104,9 @@ def get_obs():
 
 def mainloop(bitVec, goal):
 	# ang_list = np.array([math.pi/8 * i for i in range(16)])
-	prob_map = np.array([1/size for i in range(size)])
-	zeroIndices = np.where(bitVec == 0)
-	oneIndices = np.where(bitVec == 1)
+	prob_map = [1/size for i in range(size)]
+	zeroIndices = [i for i in range(len(bitVec)) if bitVec[i] == 0]
+	oneIndices = [i for i in range(len(bitVec)) if bitVec[i] == 1]
 
 	confidenceThreshold = 0.5
 	totalTheta = 0
