@@ -3,7 +3,7 @@ sys.path.append('../')
 import robot as rb
 import time 
 import signal 
-import numpy as np
+# import numpy as np
 import matplotlib.pyplot as plt 
 import math
 import copy
