@@ -3,7 +3,7 @@
 import brickpi3
 # import odometry as odom
 import math
-import numpy as np
+# import numpy as np
 
 class Robot:
     def __init__(self, wheelbase=4.25, radius=1.125):
