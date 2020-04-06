@@ -335,16 +335,15 @@ def full_path_8point(xstart, ystart, xgoal, ygoal, testing=False, testGrid=None,
         if (convertInput):
                 xgoal = (xgoal + 7) * 2
                 ygoal = 16 - ygoal * 2
-                ystart = 16
-                xstart = 14
+                # initial starting point is at 27, 16
         wv = wave8(grid, xgoal, ygoal)
         pretty_print(wv, 'grid.txt')
         init_path = find_path(wv, xstart, ystart, False)
         print(init_path)
         pretty_print_path(grid, init_path)
-        return combined_path8(init_path, xstart, ystart)
+        return [init_path, xgoal, ygoal]
 
-def full_path_4point(xstart, ystart, xgoal, ygoal, testing=False, testGrid=None, convertInput=False):
+def full_path_4point(xstart, ystart, xgoal, ygoal, finame, testing=False, testGrid=None, convertInput=False):
         if (testing):
                 grid = testGrid
         else:
@@ -359,11 +358,11 @@ def full_path_4point(xstart, ystart, xgoal, ygoal, testing=False, testGrid=None,
         pretty_print(wv, 'grid.txt')
         init_path = find_path(wv, xstart, ystart, True)
         print(init_path)
-        pretty_print_path(grid, init_path)
+        pretty_print_path(grid, init_path, finame)
         return combined_path(init_path, xstart, ystart)
 
 
-def pretty_print_path(grid, path):
+def pretty_print_path(grid, path, finame):
         tempGrid = copy.deepcopy(grid)
         count = 0
         for waypoint in path:
