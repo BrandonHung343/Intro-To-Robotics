@@ -33,10 +33,10 @@ def create_map():
 
 
 	b2x = list(range(12, 15))
-	b2y = list(range(10, 15))
+	b2y = list(range(9, 15))
 
 	b3x = list(range(14, 17))
-	b3y = list(range(10, 13))
+	b3y = list(range(9, 13))
 
 	b4x = list(range(16, 21))
 	b4y = list(range(2, 7))
@@ -70,6 +70,10 @@ def create_map():
 		row = points[0]
 		col = points[1]
 		m[row][col] = -1
+	m[16][14] = -1
+	m[15][14] = -1
+	m[16][13] = -1
+	m[16][15] = -1
 
 
 	for row in m:

@@ -65,15 +65,15 @@ if __name__ == '__main__':
     numSteps = 1
     myArm = armLib.RNArm(basePoint=[0, 0], linkLengths=[3.75, 2.5])
     
-    Kp1 = 0.12
+    Kp1 = 0.065 # was 0.10
     Ki1 = 0
-    Kd1 = 0
-    Kp2 = 0.0035
+    Kd1 = 0.17 # 0.0135
+    Kp2 = 0.0065
     Ki2 = 0
-    Kd2 = 0
+    Kd2 = 0.005 # 0.055
 
     timeStep = 0.02 # sec
-    timeForEachMove = 0.1 # sec
+    timeForEachMove = 0.16 # sec
     stepsForEachMove = round(timeForEachMove/timeStep)
 
     # Make configuration space
@@ -115,23 +115,26 @@ if __name__ == '__main__':
 
     # change the paths to IK angles and replace the first with theta, theta
     angles1 = pointsToAngles(path1)
+    nAngles1 = [[ang[0], ang[1] + 2 * math.pi] if ang[1] < 0 else ang for ang in angles1]
     print(angles1)
     sanityCheckPoints(angles1)
     angles2 = pointsToAngles(path2)
+    nAngles2 = [[ang[0], ang[1] + 2 * math.pi] if ang[1] < 0 else ang for ang in angles2]
     print(angles2)
     sanityCheckPoints(angles2)
     angles3 = pointsToAngles(path3)
+    nAngles3 = [[ang[0], ang[1] + 2 * math.pi] if ang[1] < 0 else ang for ang in angles3]
     print(angles3)
     sanityCheckPoints(angles3)
 
     # Plot the paths
     plt.scatter(t1s, t2s, c='b')
-    At1, At2 = splitData(angles1)
-    plt.scatter(At1, At2, c='r')
-    Bt1, Bt2 = splitData(angles2)
-    plt.scatter(Bt1, Bt2, c='r')
-    Ct1, Ct2 = splitData(angles3)
-    plt.scatter(Ct1, Ct2, c='r')
+    At1, At2 = splitData(nAngles1)
+    plt.plot(At1, At2, c='r')
+    Bt1, Bt2 = splitData(nAngles2)
+    plt.plot(Bt1, Bt2, c='g')
+    Ct1, Ct2 = splitData(nAngles3)
+    plt.plot(Ct1, Ct2, c='y')
     plt.show()
 
     allPoints = angles1 + angles2 + angles3
@@ -149,6 +152,8 @@ if __name__ == '__main__':
 
     lastAction1 = 0
     lastAction2 = 0
+    D2cap = 0.0016
+    D1cap = 0.3
 
     print('\nAllpoints: ', allPoints)
     # quit()
@@ -205,9 +210,15 @@ if __name__ == '__main__':
 	        	
         		P1error = idealT1 - currT1
         		P2error = idealT2 - arm.state[1]
+        			
 	        	
 	        	D1error = P1error - lastP1error
 	        	D2error = P2error - lastP2error
+	        	if (D1error	> D1cap or D1error	< -D1cap):
+        			D1error	= np.sign(D1error) * D1cap	
+	        	
+        		if (D2error	> D2cap or D2error	< -D2cap):
+        			D2error	= np.sign(D2error) * D2cap
 	        	I1error += P1error
 	        	I2error += P2error
 	        	FF1 = m1 * g * np.cos(currT1)
@@ -252,15 +263,18 @@ if __name__ == '__main__':
         	arm.render() # Update rendering
         	index += 1
         	print("P1error = %.3f, P2error = %.3f, D1error = %.3f, D2error = %.3f" % (P1error, P2error, D1error, D2error))
+        	print("KP1 = %.6f, kP2 = %.6f, kD1 = %.6f, kD2 = %.6f" % (Kp1 * P1error, Kp2 * P2error, Kd1 * D1error, Kd2 * D2error))
         	print("A1 = %.5f, A2 = %.5f" % (actionHere1, actionHere2))
 
-        	print("EE loc on display step:", myArm.fk([arm.state[0], arm.state[1]]))
+        	
         	# input('Next')
         	lastAction1 = actionHere1
         	lastAction2 = actionHere2
+        	time.sleep(0.02)
 
-        if (waypoint == wp1 - 1 or waypoint == wp1 + wp2 - 1 or waypoint == wp1 + wp2 + wp3 - 1):
+        if (waypoint == wp1 -1 or waypoint == wp1 + wp2 - 1 or waypoint == wp1 + wp2 + wp3 - 2):
         	print('Pnow:', pNow)
+        	print("EE loc on display step:", myArm.fk([arm.state[0], arm.state[1]]))
         	input('Next Place')
     print("Done")
     input("Press Enter to close...")
