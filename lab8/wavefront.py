@@ -327,7 +327,7 @@ def combined_path(path, xi, yi):
         finalRobotPath = zip(onespath, rotpath)
         return list(finalRobotPath)
 
-def full_path_8point(xstart, ystart, xgoal, ygoal, testing=False, testGrid=None, convertInput=False):
+def full_path_8point(xstart, ystart, xgoal, ygoal, finame, testing=False, testGrid=None, convertInput=False):
         if (testing):
                 grid = testGrid
         else:
@@ -340,7 +340,7 @@ def full_path_8point(xstart, ystart, xgoal, ygoal, testing=False, testGrid=None,
         pretty_print(wv, 'grid.txt')
         init_path = find_path(wv, xstart, ystart, False)
         print(init_path)
-        pretty_print_path(grid, init_path)
+        pretty_print_path(grid, init_path, finame)
         return [init_path, xgoal, ygoal]
 
 def full_path_4point(xstart, ystart, xgoal, ygoal, finame, testing=False, testGrid=None, convertInput=False):
@@ -370,7 +370,7 @@ def pretty_print_path(grid, path, finame):
                 y = waypoint[1]
                 tempGrid[y][x] = 'p' + str(count)
                 count = count + 1
-        pretty_print(tempGrid, 'path.txt')
+        pretty_print(tempGrid, finame + '.txt')
 
 
 

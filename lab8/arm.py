@@ -53,12 +53,16 @@ class RNArm:
 		for point in points:
 			x = point[0]
 			y = point[1]
-			if (x**2 + y**2 > sum(self.link)):
+			if (np.sqrt(x**2 + y**2) > sum(self.links)):
 				theta2 = 0
 				theta1 = 0
 			else:
 				theta2 = np.arccos((x**2 + y**2 - l1**2 - l2**2) / (2 * l1 * l2))
 				theta1 = np.arctan2(y, x) - np.arcsin((l2 * np.sin(theta2)) / np.sqrt(x**2 + y**2))
+				if (theta1 < 0):
+					theta2 = - np.arccos((x**2 + y**2 - l1**2 - l2**2) / (2 * l1 * l2))
+					theta1 = np.arctan2(y, x) - np.arcsin((l2 * np.sin(theta2)) / np.sqrt(x**2 + y**2))
+
 
 			thetasList.append([theta1, theta2])
 		return thetasList
