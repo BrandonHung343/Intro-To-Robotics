@@ -53,11 +53,11 @@ def pointsToAngles(path): #, numSteps):
 
 def sanityCheckPoints(thetaList):
 	myArm = armLib.RNArm(basePoint=[0, 0], linkLengths=[3.75, 2.5])
-	print('Sanity Check: ', end='')
+	# print('Sanity Check: ', end='')
 	for angPair in thetaList:
 		t1 = angPair[0]
 		t2 = angPair[1]
-		print(myArm.fk([t1, t2]), end=', ')
+		# print(myArm.fk([t1, t2]), end=', ')
 
 if __name__ == '__main__':
 
@@ -184,23 +184,23 @@ if __name__ == '__main__':
         	pNext = pNow
 
         discretePath = generateNSteps([pNow, pNext], stepsForEachMove)
-        print("Dpath:", discretePath)
+        # print("Dpath:", discretePath)
         sanityCheckPoints(discretePath)
         index = 0
         first = True
 
         for timeStep in range(stepsForEachMove):
         	idealThetas = discretePath[index]
-        	print()
-        	print(idealThetas)
+        	# print()
+        	# print(idealThetas)
         	idealT1 = idealThetas[0]
         	idealT2 = idealThetas[1]
-        	print('Should be at x=%.3f, y=%.3f' % tuple(myArm.fk([idealT1, idealT2])))
+        	# print('Should be at x=%.3f, y=%.3f' % tuple(myArm.fk([idealT1, idealT2])))
 
         	currT1 = arm.state[0]
         	currT2 = arm.state[1] + currT1
 
-        	print("currT1 = %.5f, currT2 = %.5f" % (currT1, currT2))
+        	# print("currT1 = %.5f, currT2 = %.5f" % (currT1, currT2))
 
         	# figure out the timestep stuff
         	tic = time.perf_counter()
@@ -262,9 +262,9 @@ if __name__ == '__main__':
         	state, reward, terminal , __ = arm.step(actionHere1, actionHere2)
         	arm.render() # Update rendering
         	index += 1
-        	print("P1error = %.3f, P2error = %.3f, D1error = %.3f, D2error = %.3f" % (P1error, P2error, D1error, D2error))
-        	print("KP1 = %.6f, kP2 = %.6f, kD1 = %.6f, kD2 = %.6f" % (Kp1 * P1error, Kp2 * P2error, Kd1 * D1error, Kd2 * D2error))
-        	print("A1 = %.5f, A2 = %.5f" % (actionHere1, actionHere2))
+        	# print("P1error = %.3f, P2error = %.3f, D1error = %.3f, D2error = %.3f" % (P1error, P2error, D1error, D2error))
+        	# print("KP1 = %.6f, kP2 = %.6f, kD1 = %.6f, kD2 = %.6f" % (Kp1 * P1error, Kp2 * P2error, Kd1 * D1error, Kd2 * D2error))
+        	# print("A1 = %.5f, A2 = %.5f" % (actionHere1, actionHere2))
 
         	
         	# input('Next')
@@ -273,7 +273,7 @@ if __name__ == '__main__':
         	time.sleep(0.02)
 
         if (waypoint == wp1 -1 or waypoint == wp1 + wp2 - 1 or waypoint == wp1 + wp2 + wp3 - 2):
-        	print('Pnow:', pNow)
+        	# print('Pnow:', pNow)
         	print("EE loc on display step:", myArm.fk([arm.state[0], arm.state[1]]))
         	input('Next Place')
     print("Done")
