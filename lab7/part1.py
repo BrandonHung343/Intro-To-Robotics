@@ -1,12 +1,13 @@
+#!/usr/bin/env python3
 # import math
 # import pickle
 # import numpy as np
 # import matplotlib.pyplot as plt
-# import arm
+import arm
 
-def main:
-	myArm = arm.RNarm(basePoint=[0, 0], linkLengths=[3.75, 2.5])
-	thetaData, locs = myArm.configSpaceChecker(myArm.naiveCollisionChecker, 100)
+def main():
+	myArm = arm.RNArm(basePoint=[0, 0], linkLengths=[3.75, 2.5])
+	thetaData, locs = myArm.configSpaceChecker(myArm.naiveCollisionChecker, 300)
 	t1Arr = []
 	t2Arr = []
 	for item in thetaData:
